@@ -1,8 +1,9 @@
 from RL.agent import Agent
-from RL.bellman_equation import V
+# from RL.bellman_equation import V
 from RL.env import Environment
 
 # from miner import Miner, PlayState
+from RL.plannner import ValueIterationPlanner, PolicyIterationPlanner
 
 
 def main():
@@ -31,9 +32,17 @@ def main():
 
         print(f"Episode {i}: Agent gets {total_reward} reward.")
 
+    planner = ValueIterationPlanner(env)
+    plan = planner.plan()
+    print(plan)
+
+    planner = PolicyIterationPlanner(env)
+    plan = planner.plan()
+    print(plan)
+
 
 if __name__ == '__main__':
-    # main()
-    print(V('state'))
-    print(V('state_up_up'))
-    print(V('state_down_down'))
+    main()
+    # print(V('state'))
+    # print(V('state_up_up'))
+    # print(V('state_down_down'))

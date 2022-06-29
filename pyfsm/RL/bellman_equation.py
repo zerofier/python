@@ -29,8 +29,8 @@ def max_V_on_next_state(s):
         transition_prods = transit_func(s, a)
         v = 0
         for next_state in transition_prods:
-            prod = transition_prods[next_state]
-            v += prod * V(next_state)
+            prob = transition_prods[next_state]
+            v += prob * V(next_state)
         values.append(v)
 
     return max(values)
@@ -50,8 +50,8 @@ def transit_func(s, a):
     if len(actions) == LIMIT_GATE_COUNT:
         up_count = sum(1 if a == ACTION_1 else 0 for a in actions)
         state = STATE_1 if up_count >= HAPPY_END_BORDER else STATE_2
-        prod = 1.0
-        return {state: prod}
+        prob = 1.0
+        return {state: prob}
     else:
         opposite = ACTION_1 if a == ACTION_2 else ACTION_2
         return {

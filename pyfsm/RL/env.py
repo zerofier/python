@@ -26,6 +26,7 @@ class Environment:
     def actions(self):
         return [Action.UP, Action.DOWN, Action.LEFT, Action.RIGHT]
 
+    @property
     def states(self):
         states = []
         for row in range(self.row_length):
@@ -42,17 +43,17 @@ class Environment:
         opposite_direction = Action(action.value * -1)
 
         for a in self.actions:
-            prod = 0
+            prob = 0
             if a == action:
-                prod = self.move_prod
+                prob = self.move_prod
             elif a != opposite_direction:
-                prod = (1 - self.move_prod) / 2
+                prob = (1 - self.move_prod) / 2
 
             next_state = self._move(state, a)
             if next_state not in transition_prods:
-                transition_prods[next_state] = prod
+                transition_prods[next_state] = prob
             else:
-                transition_prods[next_state] += prod
+                transition_prods[next_state] += prob
 
         return transition_prods
 
