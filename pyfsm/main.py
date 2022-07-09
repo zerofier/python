@@ -1,13 +1,15 @@
 from pprint import pprint
 
+import gym
 import numpy as np
 
+from RL.actor_critic import ActorCritic, Actor, Critic
 from RL.agent import Agent, EpsilonGreedyAgent
 # from RL.bellman_equation import V
 from RL.cointoss import CoinToss
 from RL.env import Environment
-
 # from miner import Miner, PlayState
+from RL.frozen_lake_util import show_q_value
 from RL.plannner import ValueIterationPlanner, PolicyIterationPlanner
 
 
@@ -48,6 +50,30 @@ def main():
     pprint(plan, width=120)
 
 
+def train():
+    # agent = MonteCarloAgent(epsilon=0.1)
+    # agent = QLearningAgent(epsilon=0.1)
+    # agent = SARSAAgent(epsilon=0.1)
+    trainer = ActorCritic(Actor, Critic)
+    # env = gym.make("FrozenLakeEasy-v0")
+    env = gym.make("Taxi-v3")
+    actor, critic = trainer.train(env, episode_count=3000)
+    # agent.learn(env, episode_count=500)
+    # show_q_value(agent.Q)
+    # agent.show_reward_log()
+    # show_q_value(actor.Q, env)
+    # actor.show_reward_log()
+
+    for _ in range(5):
+        s = env.reset()
+        done = False
+        while not done:
+            env.render()
+            a = actor.policy(s)
+            n_state, reward, done, info = env.step(a)
+            s = n_state
+
+
 if __name__ == '__main__':
     import pandas as pd
     import matplotlib.pyplot as plt
@@ -76,4 +102,5 @@ if __name__ == '__main__':
         result.plot.line(figsize=(10, 5))
         plt.show()
 
-    main()
+    # main()
+    train()
